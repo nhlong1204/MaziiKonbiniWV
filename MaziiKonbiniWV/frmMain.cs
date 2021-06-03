@@ -240,9 +240,14 @@ namespace MaziiKonbiniWV
 
         private void showMainScreen()
         {
-            this.Show();
+            /*this.Show();
             this.WindowState = FormWindowState.Normal;
             this.Visible = true;
+            this.Activate();*/
+
+            this.TopMost = true;
+            this.WindowState = FormWindowState.Normal;
+            this.Show();
             this.Activate();
         }
 
