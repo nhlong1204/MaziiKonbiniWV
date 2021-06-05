@@ -70,7 +70,7 @@ namespace MaziiKonbiniWV
 
             if (doc.RootElement.GetProperty("results").GetArrayLength() != 0)
             {
-                //Search lan 1
+                //Search lan 1, neu tim thay nghia co san thi lay ra
                 foreach (JsonElement eachResult in doc.RootElement.GetProperty("results").EnumerateArray())
                 {
                     if (eachResult.GetProperty("examples").GetArrayLength() != 0)
@@ -86,7 +86,7 @@ namespace MaziiKonbiniWV
                     }
                 }
 
-                //Search lan 2
+                //Search lan 2, neu khong tim thay nghia co san thi search lam luot tung chu Han roi ghep lai
                 string resultHanViet = string.Empty;
                 foreach (char eachKanjiChar in searchText.ToCharArray())
                 {
@@ -152,13 +152,13 @@ namespace MaziiKonbiniWV
                     }
                 }
 
-                //Add search text to panel
+                //Add search text to body
                 var searchTextElem = document.Result.CreateElement("h2");
                 searchTextElem.Id = "search-text";
                 searchTextElem.TextContent = searchText;
-                document.Result.Body.AppendChild(searchTextElem);               
+                document.Result.Body.AppendChild(searchTextElem);
 
-                //Add furigana text to panel
+                //Add furigana text to body
                 if (!string.IsNullOrEmpty(dataElementZero.GetProperty("phonetic").GetString()))
                 {
                     var furiganaElem = document.Result.CreateElement("p");
@@ -181,12 +181,19 @@ namespace MaziiKonbiniWV
                     {
                         foreach (string wordKey in eachMeanArrElement.GetProperty("kind").GetString().Split(','))
                         {
-                            wordType += CONSTANT.WordType[wordKey.Trim()] + ", ";
+                            if (CONSTANT.WordType.ContainsKey(wordKey.Trim()))
+                            {
+                                wordType += CONSTANT.WordType[wordKey.Trim()] + ", ";
+                            }
+                            else
+                            {
+                                wordType += wordKey.Trim() + ", ";
+                            }
                         }
                         wordType = wordType.Remove(wordType.Length - 2);
                     }
 
-                    //Set to label then add to flow layout panel
+                    //Set to label then add to body
                     //Add kind
                     var eachKindElem = document.Result.CreateElement("p");
                     eachKindElem.ClassName = "each-kind";
