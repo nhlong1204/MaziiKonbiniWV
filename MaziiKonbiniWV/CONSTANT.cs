@@ -13,6 +13,7 @@ namespace MaziiKonbiniWV
         public const string baseURL = @"https://mazii.net/api/search";
         public const int TIME_OUT = 5;
         public const string templateHTML = @"<!DOCTYPE html><html><head><style>html{font-family:Helvetica Neue,Helvetica,Arial,sans-serif}body{padding:10px;border:1px solid;border-color:#dddfe2}h2{color:#e53c20;padding:0;margin:5px}p.phonetic{display:inline;margin:5px}.each-kind{color:#d22f0f;margin:5px 0px 0px 0px;font-size:15px}.each-mean{color:#3367d6;margin:5px 0px 0px 0px;font-size:18px}.example-jp{color:#d22f0f;margin:5px 0px 0px 20px}.example-vn{color:#4f4f4f;margin:5px 0px 0px 20px}</style></head><body></body></html>";
+        public const string registryStartUpPath = @"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 
         #region HotKeys
         //WinProc

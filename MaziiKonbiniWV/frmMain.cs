@@ -15,12 +15,14 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
+using Microsoft.Win32;
 
 namespace MaziiKonbiniWV
 {
     public partial class frmMain : Form
     {  
         private static readonly HttpClient client = new HttpClient(new HttpClientHandler { UseProxy = false });
+        private static readonly RegistryKey regKey = Registry.CurrentUser.OpenSubKey(CONSTANT.registryStartUpPath, true);
         private static string searchText = string.Empty;
         private static string previousText = string.Empty;
 
@@ -33,6 +35,8 @@ namespace MaziiKonbiniWV
             frmInterChange = this;
             _hookID = SetHook(_proc);
             InitializeComponent();
+            //Check de hien thi icon check o menustrip item
+            startWithWindowsToolStripMenuItem.CheckState = regKey.GetValueNames().Contains(Application.ProductName) ? CheckState.Checked : CheckState.Unchecked;
         }      
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -311,5 +315,27 @@ namespace MaziiKonbiniWV
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
         #endregion
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void startWithWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //RegistryKey regKey = Registry.CurrentUser.OpenSubKey(CONSTANT.registryStartUpPath, true);
+            if (startWithWindowsToolStripMenuItem.Checked)
+            {
+                if (!regKey.GetValueNames().Contains(Application.ProductName))
+                {
+                    regKey.SetValue(Application.ProductName, Application.ExecutablePath);
+                }
+                
+            }
+            else
+            {
+                regKey.DeleteValue(Application.ProductName, false);
+            }
+        }
     }
 }
