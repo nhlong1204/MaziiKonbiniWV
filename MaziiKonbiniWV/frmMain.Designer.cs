@@ -32,9 +32,9 @@ namespace MaziiKonbiniWV
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.wvMain = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.stMain = new System.Windows.Forms.StatusStrip();
-            this.tsProgress = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tslblProgress = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.tsDropDownButtonOption = new System.Windows.Forms.ToolStripDropDownButton();
             this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.wvMain)).BeginInit();
             this.stMain.SuspendLayout();
@@ -62,37 +62,37 @@ namespace MaziiKonbiniWV
             this.stMain.AutoSize = false;
             this.stMain.Dock = System.Windows.Forms.DockStyle.None;
             this.stMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsProgress,
-            this.toolStripProgressBar1,
-            this.toolStripDropDownButton1});
+            this.tslblProgress,
+            this.tsProgressBar,
+            this.tsDropDownButtonOption});
             this.stMain.Location = new System.Drawing.Point(0, 467);
             this.stMain.Name = "stMain";
             this.stMain.Size = new System.Drawing.Size(377, 22);
             this.stMain.TabIndex = 1;
             this.stMain.Text = "statusStrip1";
             // 
-            // tsProgress
+            // tslblProgress
             // 
-            this.tsProgress.Name = "tsProgress";
-            this.tsProgress.Size = new System.Drawing.Size(52, 17);
-            this.tsProgress.Text = "Progress";
-            this.tsProgress.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
+            this.tslblProgress.Name = "tslblProgress";
+            this.tslblProgress.Size = new System.Drawing.Size(52, 17);
+            this.tslblProgress.Text = "Progress";
+            this.tslblProgress.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
-            // toolStripProgressBar1
+            // tsProgressBar
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.tsProgressBar.Name = "tsProgressBar";
+            this.tsProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
-            // toolStripDropDownButton1
+            // tsDropDownButtonOption
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsDropDownButtonOption.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsDropDownButtonOption.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startWithWindowsToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(62, 20);
-            this.toolStripDropDownButton1.Text = "Options";
+            this.tsDropDownButtonOption.Image = ((System.Drawing.Image)(resources.GetObject("tsDropDownButtonOption.Image")));
+            this.tsDropDownButtonOption.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsDropDownButtonOption.Name = "tsDropDownButtonOption";
+            this.tsDropDownButtonOption.Size = new System.Drawing.Size(62, 20);
+            this.tsDropDownButtonOption.Text = "Options";
             // 
             // startWithWindowsToolStripMenuItem
             // 
@@ -124,9 +124,9 @@ namespace MaziiKonbiniWV
 
         private Microsoft.Web.WebView2.WinForms.WebView2 wvMain;
         private System.Windows.Forms.StatusStrip stMain;
-        private System.Windows.Forms.ToolStripStatusLabel tsProgress;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripStatusLabel tslblProgress;
+        private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
+        private System.Windows.Forms.ToolStripDropDownButton tsDropDownButtonOption;
         private System.Windows.Forms.ToolStripMenuItem startWithWindowsToolStripMenuItem;
     }
 }
