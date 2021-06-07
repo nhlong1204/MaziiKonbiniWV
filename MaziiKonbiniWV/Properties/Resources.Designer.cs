@@ -63,6 +63,16 @@ namespace MaziiKonbiniWV.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ajax_loader_drop {
+            get {
+                object obj = ResourceManager.GetObject("ajax-loader_drop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap favicon_32x32 {
             get {
                 object obj = ResourceManager.GetObject("favicon-32x32", resourceCulture);
