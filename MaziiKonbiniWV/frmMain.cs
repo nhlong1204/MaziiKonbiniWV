@@ -209,21 +209,25 @@ namespace MaziiKonbiniWV
                     document.Result.Body.AppendChild(eachKindElem).AppendChild(eachMeanElem);
 
                     //Set each example
-                    if (eachMeanArrElement.GetProperty("examples").ValueKind == JsonValueKind.Array &&
-                        eachMeanArrElement.GetProperty("examples").GetArrayLength() > 0) 
+                    JsonElement eachExampleArr = new JsonElement();
+                    if (eachMeanArrElement.TryGetProperty("examples", out eachExampleArr))
                     {
-                        foreach (JsonElement eachExample in eachMeanArrElement.GetProperty("examples").EnumerateArray())
+                        if (eachExampleArr.ValueKind == JsonValueKind.Array &&
+                            eachExampleArr.GetArrayLength() > 0)
                         {
-                            var eachExampleJPElem = document.Result.CreateElement("p");
-                            eachExampleJPElem.ClassName = "example-jp";
-                            eachExampleJPElem.TextContent = eachExample.GetProperty("content").GetString();
+                            foreach (JsonElement eachExample in eachExampleArr.EnumerateArray())
+                            {
+                                var eachExampleJPElem = document.Result.CreateElement("p");
+                                eachExampleJPElem.ClassName = "example-jp";
+                                eachExampleJPElem.TextContent = eachExample.GetProperty("content").GetString();
 
-                            var eachExampleVNElem = document.Result.CreateElement("p");
-                            eachExampleVNElem.ClassName = "example-vn";
-                            eachExampleVNElem.TextContent = eachExample.GetProperty("mean").GetString();
+                                var eachExampleVNElem = document.Result.CreateElement("p");
+                                eachExampleVNElem.ClassName = "example-vn";
+                                eachExampleVNElem.TextContent = eachExample.GetProperty("mean").GetString();
 
-                            document.Result.Body.AppendChild(eachExampleJPElem).AppendChild(eachExampleVNElem);
-                            
+                                document.Result.Body.AppendChild(eachExampleJPElem).AppendChild(eachExampleVNElem);
+
+                            }
                         }
                     }
 
