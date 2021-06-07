@@ -112,7 +112,7 @@ namespace MaziiKonbiniWV
             return string.Empty;
         }
         private void DisplayResult()
-        {
+        {            
             //Create html skeleton
             var config = Configuration.Default;
             var context = BrowsingContext.New(config);
@@ -288,6 +288,7 @@ namespace MaziiKonbiniWV
                         if (string.Compare(searchText, previousText) != 0)
                         {
                             Debug.WriteLine(">>>> call");
+                            frmInterChange.ShowSpinner();
                             frmInterChange.DisplayResult();
                             previousText = searchText;
                         }
@@ -336,6 +337,16 @@ namespace MaziiKonbiniWV
             {
                 regKey.DeleteValue(Application.ProductName, false);
             }
+        }
+
+        private void ShowSpinner()
+        {
+            pbMain.Location = new Point((this.Width / 2) - (pbMain.Width / 2), (this.Height / 2) - (pbMain.Height / 2));
+            pbMain.Visible = true;
+        }
+        private void wvMain_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+        {
+            pbMain.Visible = false;
         }
     }
 }
