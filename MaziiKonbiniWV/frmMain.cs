@@ -15,12 +15,14 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
+using Microsoft.Win32;
 
 namespace MaziiKonbiniWV
 {
     public partial class frmMain : Form
     {  
         private static readonly HttpClient client = new HttpClient(new HttpClientHandler { UseProxy = false });
+        private static readonly RegistryKey regKey = Registry.CurrentUser.OpenSubKey(CONSTANT.registryStartUpPath, true);
         private static string searchText = string.Empty;
         private static string previousText = string.Empty;
 
@@ -33,6 +35,8 @@ namespace MaziiKonbiniWV
             frmInterChange = this;
             _hookID = SetHook(_proc);
             InitializeComponent();
+            //Check de hien thi icon check o menustrip item
+            startWithWindowsToolStripMenuItem.CheckState = regKey.GetValueNames().Contains(Application.ProductName) ? CheckState.Checked : CheckState.Unchecked;
         }      
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -70,7 +74,7 @@ namespace MaziiKonbiniWV
 
             if (doc.RootElement.GetProperty("results").GetArrayLength() != 0)
             {
-                //Search lan 1
+                //Search lan 1, neu tim thay nghia co san thi lay ra
                 foreach (JsonElement eachResult in doc.RootElement.GetProperty("results").EnumerateArray())
                 {
                     if (eachResult.GetProperty("examples").GetArrayLength() != 0)
@@ -86,7 +90,7 @@ namespace MaziiKonbiniWV
                     }
                 }
 
-                //Search lan 2
+                //Search lan 2, neu khong tim thay nghia co san thi search lam luot tung chu Han roi ghep lai
                 string resultHanViet = string.Empty;
                 foreach (char eachKanjiChar in searchText.ToCharArray())
                 {
@@ -108,7 +112,7 @@ namespace MaziiKonbiniWV
             return string.Empty;
         }
         private void DisplayResult()
-        {
+        {            
             //Create html skeleton
             var config = Configuration.Default;
             var context = BrowsingContext.New(config);
@@ -152,13 +156,13 @@ namespace MaziiKonbiniWV
                     }
                 }
 
-                //Add search text to panel
+                //Add search text to body
                 var searchTextElem = document.Result.CreateElement("h2");
                 searchTextElem.Id = "search-text";
                 searchTextElem.TextContent = searchText;
-                document.Result.Body.AppendChild(searchTextElem);               
+                document.Result.Body.AppendChild(searchTextElem);
 
-                //Add furigana text to panel
+                //Add furigana text to body
                 if (!string.IsNullOrEmpty(dataElementZero.GetProperty("phonetic").GetString()))
                 {
                     var furiganaElem = document.Result.CreateElement("p");
@@ -181,12 +185,19 @@ namespace MaziiKonbiniWV
                     {
                         foreach (string wordKey in eachMeanArrElement.GetProperty("kind").GetString().Split(','))
                         {
-                            wordType += CONSTANT.WordType[wordKey.Trim()] + ", ";
+                            if (CONSTANT.WordType.ContainsKey(wordKey.Trim()))
+                            {
+                                wordType += CONSTANT.WordType[wordKey.Trim()] + ", ";
+                            }
+                            else
+                            {
+                                wordType += wordKey.Trim() + ", ";
+                            }
                         }
                         wordType = wordType.Remove(wordType.Length - 2);
                     }
 
-                    //Set to label then add to flow layout panel
+                    //Set to label then add to body
                     //Add kind
                     var eachKindElem = document.Result.CreateElement("p");
                     eachKindElem.ClassName = "each-kind";
@@ -198,21 +209,25 @@ namespace MaziiKonbiniWV
                     document.Result.Body.AppendChild(eachKindElem).AppendChild(eachMeanElem);
 
                     //Set each example
-                    if (eachMeanArrElement.GetProperty("examples").ValueKind == JsonValueKind.Array &&
-                        eachMeanArrElement.GetProperty("examples").GetArrayLength() > 0) 
+                    JsonElement eachExampleArr = new JsonElement();
+                    if (eachMeanArrElement.TryGetProperty("examples", out eachExampleArr))
                     {
-                        foreach (JsonElement eachExample in eachMeanArrElement.GetProperty("examples").EnumerateArray())
+                        if (eachExampleArr.ValueKind == JsonValueKind.Array &&
+                            eachExampleArr.GetArrayLength() > 0)
                         {
-                            var eachExampleJPElem = document.Result.CreateElement("p");
-                            eachExampleJPElem.ClassName = "example-jp";
-                            eachExampleJPElem.TextContent = eachExample.GetProperty("content").GetString();
+                            foreach (JsonElement eachExample in eachExampleArr.EnumerateArray())
+                            {
+                                var eachExampleJPElem = document.Result.CreateElement("p");
+                                eachExampleJPElem.ClassName = "example-jp";
+                                eachExampleJPElem.TextContent = eachExample.GetProperty("content").GetString();
 
-                            var eachExampleVNElem = document.Result.CreateElement("p");
-                            eachExampleVNElem.ClassName = "example-vn";
-                            eachExampleVNElem.TextContent = eachExample.GetProperty("mean").GetString();
+                                var eachExampleVNElem = document.Result.CreateElement("p");
+                                eachExampleVNElem.ClassName = "example-vn";
+                                eachExampleVNElem.TextContent = eachExample.GetProperty("mean").GetString();
 
-                            document.Result.Body.AppendChild(eachExampleJPElem).AppendChild(eachExampleVNElem);
-                            
+                                document.Result.Body.AppendChild(eachExampleJPElem).AppendChild(eachExampleVNElem);
+
+                            }
                         }
                     }
 
@@ -277,6 +292,7 @@ namespace MaziiKonbiniWV
                         if (string.Compare(searchText, previousText) != 0)
                         {
                             Debug.WriteLine(">>>> call");
+                            frmInterChange.ShowSpinner();
                             frmInterChange.DisplayResult();
                             previousText = searchText;
                         }
@@ -304,5 +320,37 @@ namespace MaziiKonbiniWV
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
         #endregion
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void startWithWindowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //RegistryKey regKey = Registry.CurrentUser.OpenSubKey(CONSTANT.registryStartUpPath, true);
+            if (startWithWindowsToolStripMenuItem.Checked)
+            {
+                if (!regKey.GetValueNames().Contains(Application.ProductName))
+                {
+                    regKey.SetValue(Application.ProductName, Application.ExecutablePath);
+                }
+                
+            }
+            else
+            {
+                regKey.DeleteValue(Application.ProductName, false);
+            }
+        }
+
+        private void ShowSpinner()
+        {
+            pbMain.Location = new Point((this.Width / 2) - (pbMain.Width / 2), (this.Height / 2) - (pbMain.Height / 2));
+            pbMain.Visible = true;
+        }
+        private void wvMain_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+        {
+            pbMain.Visible = false;
+        }
     }
 }
