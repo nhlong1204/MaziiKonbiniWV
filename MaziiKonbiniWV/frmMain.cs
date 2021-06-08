@@ -158,18 +158,22 @@ namespace MaziiKonbiniWV
                 document.Result.Body.AppendChild(searchTextElem);
 
                 //Add furigana text to body
-                if (!string.IsNullOrEmpty(dataElementZero.GetProperty("phonetic").GetString()))
+                JsonElement jsonPhoneticElement = new JsonElement();
+                if (dataElementZero.TryGetProperty("phonetic", out jsonPhoneticElement))
                 {
-                    var furiganaElem = document.Result.CreateElement("p");
-                    furiganaElem.Id = "furigana";
-                    furiganaElem.ClassName = "phonetic";
-                    furiganaElem.TextContent = dataElementZero.GetProperty("phonetic").GetString();
+                    if (!string.IsNullOrEmpty(jsonPhoneticElement.GetString()))
+                    {
+                        var furiganaElem = document.Result.CreateElement("p");
+                        furiganaElem.Id = "furigana";
+                        furiganaElem.ClassName = "phonetic";
+                        furiganaElem.TextContent = jsonPhoneticElement.GetString();
 
-                    var hanvietElem = document.Result.CreateElement("p");
-                    hanvietElem.Id = "hanviet";
-                    hanvietElem.ClassName = "phonetic";
-                    hanvietElem.TextContent = resultMeanHanViet;
-                    document.Result.Body.AppendChild(furiganaElem).AppendChild(hanvietElem);                    
+                        var hanvietElem = document.Result.CreateElement("p");
+                        hanvietElem.Id = "hanviet";
+                        hanvietElem.ClassName = "phonetic";
+                        hanvietElem.TextContent = resultMeanHanViet;
+                        document.Result.Body.AppendChild(furiganaElem).AppendChild(hanvietElem);
+                    } 
                 }
 
                 foreach (JsonElement eachMeanArrElement in dataElementZero.GetProperty("means").EnumerateArray())
