@@ -234,18 +234,19 @@ namespace MaziiKonbiniWV
             }
             catch (Exception ex)
             {
+                var errorMessageTitleElem = document.Result.CreateElement("p");
+                var errorMessageContentElem = document.Result.CreateElement("p");
                 if (ex.InnerException is TaskCanceledException)
                 {
-                    var errorMessageTimeOut = document.Result.CreateElement("p");
-                    errorMessageTimeOut.TextContent = "TIME OUT!" + Environment.NewLine + CONSTANT.baseURL + " took too long to respond";
-                    document.Result.Body.AppendChild(errorMessageTimeOut);
+                    errorMessageTitleElem.TextContent = "TIME OUT!";
+                    errorMessageContentElem.TextContent = CONSTANT.baseURL + " took too long to respond";
                 }
                 else
-                {  
-                    var errorMessageElem = document.Result.CreateElement("p");
-                    errorMessageElem.TextContent = "Search text: " + searchText + Environment.NewLine + "Message: " + ex.Message;
-                    document.Result.Body.AppendChild(errorMessageElem);
+                {
+                    errorMessageTitleElem.TextContent = "Search text: " + searchText;
+                    errorMessageContentElem.TextContent = "Message: " + ex.Message;
                 }
+                document.Result.Body.AppendNodes(errorMessageTitleElem, errorMessageContentElem);
             }
 
             wvMain.NavigateToString(document.Result.DocumentElement.OuterHtml);
