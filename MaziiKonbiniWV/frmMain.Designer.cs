@@ -34,8 +34,8 @@ namespace MaziiKonbiniWV
             this.stMain = new System.Windows.Forms.StatusStrip();
             this.tsDropDownButtonOption = new System.Windows.Forms.ToolStripDropDownButton();
             this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pbMain = new System.Windows.Forms.PictureBox();
             this.temporarilyDisableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pbMain = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.wvMain)).BeginInit();
             this.stMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMain)).BeginInit();
@@ -93,6 +93,13 @@ namespace MaziiKonbiniWV
             this.startWithWindowsToolStripMenuItem.Text = "Start with Windows";
             this.startWithWindowsToolStripMenuItem.Click += new System.EventHandler(this.startWithWindowsToolStripMenuItem_Click);
             // 
+            // temporarilyDisableToolStripMenuItem
+            // 
+            this.temporarilyDisableToolStripMenuItem.CheckOnClick = true;
+            this.temporarilyDisableToolStripMenuItem.Name = "temporarilyDisableToolStripMenuItem";
+            this.temporarilyDisableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.temporarilyDisableToolStripMenuItem.Text = "Temporarily disable";
+            // 
             // pbMain
             // 
             this.pbMain.Image = global::MaziiKonbiniWV.Properties.Resources.ajax_loader_drop;
@@ -103,13 +110,6 @@ namespace MaziiKonbiniWV
             this.pbMain.TabIndex = 2;
             this.pbMain.TabStop = false;
             this.pbMain.Visible = false;
-            // 
-            // temporarilyDisableToolStripMenuItem
-            // 
-            this.temporarilyDisableToolStripMenuItem.CheckOnClick = true;
-            this.temporarilyDisableToolStripMenuItem.Name = "temporarilyDisableToolStripMenuItem";
-            this.temporarilyDisableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.temporarilyDisableToolStripMenuItem.Text = "Temporarily disable";
             // 
             // frmMain
             // 
@@ -122,6 +122,7 @@ namespace MaziiKonbiniWV
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.Text = "Mazii Konbini";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.wvMain)).EndInit();
             this.stMain.ResumeLayout(false);
