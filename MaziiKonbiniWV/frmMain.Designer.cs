@@ -35,6 +35,7 @@ namespace MaziiKonbiniWV
             this.tsDropDownButtonOption = new System.Windows.Forms.ToolStripDropDownButton();
             this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pbMain = new System.Windows.Forms.PictureBox();
+            this.temporarilyDisableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.wvMain)).BeginInit();
             this.stMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMain)).BeginInit();
@@ -76,7 +77,8 @@ namespace MaziiKonbiniWV
             // 
             this.tsDropDownButtonOption.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsDropDownButtonOption.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startWithWindowsToolStripMenuItem});
+            this.startWithWindowsToolStripMenuItem,
+            this.temporarilyDisableToolStripMenuItem});
             this.tsDropDownButtonOption.Image = ((System.Drawing.Image)(resources.GetObject("tsDropDownButtonOption.Image")));
             this.tsDropDownButtonOption.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsDropDownButtonOption.Name = "tsDropDownButtonOption";
@@ -87,7 +89,7 @@ namespace MaziiKonbiniWV
             // 
             this.startWithWindowsToolStripMenuItem.CheckOnClick = true;
             this.startWithWindowsToolStripMenuItem.Name = "startWithWindowsToolStripMenuItem";
-            this.startWithWindowsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.startWithWindowsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startWithWindowsToolStripMenuItem.Text = "Start with Windows";
             this.startWithWindowsToolStripMenuItem.Click += new System.EventHandler(this.startWithWindowsToolStripMenuItem_Click);
             // 
@@ -101,6 +103,13 @@ namespace MaziiKonbiniWV
             this.pbMain.TabIndex = 2;
             this.pbMain.TabStop = false;
             this.pbMain.Visible = false;
+            // 
+            // temporarilyDisableToolStripMenuItem
+            // 
+            this.temporarilyDisableToolStripMenuItem.CheckOnClick = true;
+            this.temporarilyDisableToolStripMenuItem.Name = "temporarilyDisableToolStripMenuItem";
+            this.temporarilyDisableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.temporarilyDisableToolStripMenuItem.Text = "Temporarily disable";
             // 
             // frmMain
             // 
@@ -129,6 +138,7 @@ namespace MaziiKonbiniWV
         private System.Windows.Forms.ToolStripDropDownButton tsDropDownButtonOption;
         private System.Windows.Forms.ToolStripMenuItem startWithWindowsToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbMain;
+        private System.Windows.Forms.ToolStripMenuItem temporarilyDisableToolStripMenuItem;
     }
 }
 

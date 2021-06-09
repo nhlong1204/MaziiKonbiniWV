@@ -158,18 +158,22 @@ namespace MaziiKonbiniWV
                 document.Result.Body.AppendChild(searchTextElem);
 
                 //Add furigana text to body
-                if (!string.IsNullOrEmpty(dataElementZero.GetProperty("phonetic").GetString()))
+                JsonElement jsonPhoneticElement = new JsonElement();
+                if (dataElementZero.TryGetProperty("phonetic", out jsonPhoneticElement))
                 {
-                    var furiganaElem = document.Result.CreateElement("p");
-                    furiganaElem.Id = "furigana";
-                    furiganaElem.ClassName = "phonetic";
-                    furiganaElem.TextContent = dataElementZero.GetProperty("phonetic").GetString();
+                    if (!string.IsNullOrEmpty(jsonPhoneticElement.GetString()))
+                    {
+                        var furiganaElem = document.Result.CreateElement("p");
+                        furiganaElem.Id = "furigana";
+                        furiganaElem.ClassName = "phonetic";
+                        furiganaElem.TextContent = jsonPhoneticElement.GetString();
 
-                    var hanvietElem = document.Result.CreateElement("p");
-                    hanvietElem.Id = "hanviet";
-                    hanvietElem.ClassName = "phonetic";
-                    hanvietElem.TextContent = resultMeanHanViet;
-                    document.Result.Body.AppendChild(furiganaElem).AppendChild(hanvietElem);                    
+                        var hanvietElem = document.Result.CreateElement("p");
+                        hanvietElem.Id = "hanviet";
+                        hanvietElem.ClassName = "phonetic";
+                        hanvietElem.TextContent = resultMeanHanViet;
+                        document.Result.Body.AppendChild(furiganaElem).AppendChild(hanvietElem);
+                    } 
                 }
 
                 foreach (JsonElement eachMeanArrElement in dataElementZero.GetProperty("means").EnumerateArray())
@@ -230,18 +234,19 @@ namespace MaziiKonbiniWV
             }
             catch (Exception ex)
             {
+                var errorMessageTitleElem = document.Result.CreateElement("p");
+                var errorMessageContentElem = document.Result.CreateElement("p");
                 if (ex.InnerException is TaskCanceledException)
                 {
-                    var errorMessageTimeOut = document.Result.CreateElement("p");
-                    errorMessageTimeOut.TextContent = "TIME OUT!" + Environment.NewLine + CONSTANT.baseURL + " took too long to respond";
-                    document.Result.Body.AppendChild(errorMessageTimeOut);
+                    errorMessageTitleElem.TextContent = "TIME OUT!";
+                    errorMessageContentElem.TextContent = CONSTANT.baseURL + " took too long to respond";
                 }
                 else
-                {  
-                    var errorMessageElem = document.Result.CreateElement("p");
-                    errorMessageElem.TextContent = "Search text: " + searchText + Environment.NewLine + "Message: " + ex.Message;
-                    document.Result.Body.AppendChild(errorMessageElem);
+                {
+                    errorMessageTitleElem.TextContent = "Search text: " + searchText;
+                    errorMessageContentElem.TextContent = "Message: " + ex.Message;
                 }
+                document.Result.Body.AppendNodes(errorMessageTitleElem, errorMessageContentElem);
             }
 
             wvMain.NavigateToString(document.Result.DocumentElement.OuterHtml);
@@ -280,21 +285,24 @@ namespace MaziiKonbiniWV
                 int vkCode = Marshal.ReadInt32(lParam);
                 if (Keys.C == (Keys)vkCode && Keys.Control == Control.ModifierKeys)
                 {
-                    if (Clipboard.ContainsText())
+                    if (!frmInterChange.temporarilyDisableToolStripMenuItem.Checked)
                     {
-                        Debug.WriteLine(Clipboard.GetText());
-                        searchText = Clipboard.GetText().Trim();
-                        if (string.Compare(searchText, previousText) != 0)
+                        if (Clipboard.ContainsText())
                         {
-                            Debug.WriteLine(">>>> call");
-                            frmInterChange.ShowSpinner();
-                            frmInterChange.DisplayResult();
-                            previousText = searchText;
-                        }
-                        else
-                        {
-                            frmInterChange.showMainScreen();
-                        }
+                            Debug.WriteLine(Clipboard.GetText());
+                            searchText = Clipboard.GetText().Trim();
+                            if (string.Compare(searchText, previousText) != 0)
+                            {
+                                Debug.WriteLine(">>>> call");
+                                frmInterChange.ShowSpinner();
+                                frmInterChange.DisplayResult();
+                                previousText = searchText;
+                            }
+                            else
+                            {
+                                frmInterChange.showMainScreen();
+                            }
+                        } 
                     }
                 }
             }
