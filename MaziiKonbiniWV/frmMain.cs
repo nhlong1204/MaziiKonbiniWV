@@ -285,21 +285,24 @@ namespace MaziiKonbiniWV
                 int vkCode = Marshal.ReadInt32(lParam);
                 if (Keys.C == (Keys)vkCode && Keys.Control == Control.ModifierKeys)
                 {
-                    if (Clipboard.ContainsText())
+                    if (!frmInterChange.temporarilyDisableToolStripMenuItem.Checked)
                     {
-                        Debug.WriteLine(Clipboard.GetText());
-                        searchText = Clipboard.GetText().Trim();
-                        if (string.Compare(searchText, previousText) != 0)
+                        if (Clipboard.ContainsText())
                         {
-                            Debug.WriteLine(">>>> call");
-                            frmInterChange.ShowSpinner();
-                            frmInterChange.DisplayResult();
-                            previousText = searchText;
-                        }
-                        else
-                        {
-                            frmInterChange.showMainScreen();
-                        }
+                            Debug.WriteLine(Clipboard.GetText());
+                            searchText = Clipboard.GetText().Trim();
+                            if (string.Compare(searchText, previousText) != 0)
+                            {
+                                Debug.WriteLine(">>>> call");
+                                frmInterChange.ShowSpinner();
+                                frmInterChange.DisplayResult();
+                                previousText = searchText;
+                            }
+                            else
+                            {
+                                frmInterChange.showMainScreen();
+                            }
+                        } 
                     }
                 }
             }
